@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+    <test verbose="2" preserve-order="true" name="C:/Users/Ajuja/IdeaProjects/ParaBank-Automation/src/test/java">
+        <classes>
+            <class name="tests.AccountServicesTest">
+                <methods>
+                    <include name="ExistingAccountInfo"/>
+                </methods>
+            </class>
+            <class name="tests.LoginTest">
+                <methods>
+                    <include name="loginOrRegister"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

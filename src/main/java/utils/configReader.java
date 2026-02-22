@@ -15,7 +15,7 @@ public class configReader {
     static Properties prop = new Properties();
     //FileInputStream fis;
 
-    static{
+    static {
         try {
             FileInputStream fis = new FileInputStream(System.getProperty("user.dir") + "/src/test/resources/config.properties");
             prop.load(fis);
@@ -29,7 +29,8 @@ public class configReader {
         String browserName = prop.getProperty("browser");
         return browserName;
     }
-    public  static String getBaseUrl(){
+
+    public static String getBaseUrl() {
         return prop.getProperty("baseUrl");
     }
 }
