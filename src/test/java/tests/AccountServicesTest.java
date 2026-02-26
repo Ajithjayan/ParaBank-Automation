@@ -13,13 +13,15 @@ import utils.CredentialManager;
 import java.io.IOException;
 
 public class AccountServicesTest extends BaseTest {
+    private String accountNumber;
     @Test(retryAnalyzer=base.Retry.class)
     public void ExistingAccountInfo() throws IOException {
         ensureuserExist();
         DashBoardPage dashBoardPage= new DashBoardPage(driver);
         accountInfoPage accountinfo=  dashBoardPage.accountsOverview();
         accountinfo.getAccountDetails();
-        String accountNumber= accountinfo.getAccountNumber();
+        accountNumber= accountinfo.getAccountNumber();
+        this.accountNumber=accountNumber;
         System.out.println("AccountNo= "+accountNumber);
 
         String url=driver.getCurrentUrl();

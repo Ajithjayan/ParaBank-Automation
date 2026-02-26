@@ -7,6 +7,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.WaitUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class accountInfoPage extends WaitUtils {
@@ -44,4 +45,12 @@ public class accountInfoPage extends WaitUtils {
        return matchedNo;
     }
 
+    public List<String> NumberOfAccounts(){
+
+        List<String> acc= new ArrayList<>();
+        for(WebElement element:accountNames){
+            acc.add(element.getText());
+        }
+        return acc;
+    }
 }

@@ -23,6 +23,10 @@ public class DashBoardPage extends WaitUtils {
     @FindBy(css="a[href='openaccount.htm']")
     WebElement openNewAccount;
 
+    //Transfer Funds
+    @FindBy(css="a[href='transfer.htm']")
+    WebElement transferFundsbtn;
+
     public String getAccountDetailsText(){
         return accountDetails.getText();
     }
@@ -41,5 +45,10 @@ public class DashBoardPage extends WaitUtils {
         waitForElementToAppear(accountOverview);
         accountOverview.click();
         return new accountInfoPage(driver);
+    }
+
+    public TransferFundsPage transferFunds(){
+        transferFundsbtn.click();
+        return new TransferFundsPage(driver);
     }
 }
