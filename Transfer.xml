@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite" parallel="tests" >
+    <listeners>
+        <listener class-name="base.Listeners"/>
+    </listeners>
+    <test verbose="2" preserve-order="true" name="C:/Users/Ajuja/IdeaProjects/ParaBank-Automation/src/test/java" thread-count="3">
+        <classes>
+            <class name="tests.AccountServicesTest">
+            </class>
+        </classes>
+    </test>
+    <test name="Login Test" thread-count="3">
+        <classes>
+            <class name="tests.LoginTest"/>
+        </classes>
+    </test>
+</suite>

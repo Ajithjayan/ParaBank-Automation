@@ -3,6 +3,7 @@ package base;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 
 import java.io.FileInputStream;
@@ -17,6 +18,7 @@ public class DriverFactory{
 
 
         if(browser.equalsIgnoreCase("chrome")){
+            ChromeOptions options = new ChromeOptions();
             WebDriverManager.chromedriver().setup();
             driver = new ChromeDriver();
         } else if (browser.equalsIgnoreCase("edge")) {
