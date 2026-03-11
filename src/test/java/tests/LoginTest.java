@@ -34,7 +34,7 @@ public class LoginTest extends BaseTest {
 //        Assert.assertTrue(login.inValidCredentials());
 //    }
 
-    @Test
+    @Test(retryAnalyzer = base.Retry.class)
     public void loginOrRegister() throws IOException {
         ensureuserExist();
         LoginPage loginPage= new LoginPage(driver);

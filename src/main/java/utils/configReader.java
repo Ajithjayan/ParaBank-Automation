@@ -33,4 +33,8 @@ public class configReader {
     public static String getBaseUrl() {
         return prop.getProperty("baseUrl");
     }
+
+    public static boolean isHeadless() {
+        return Boolean.parseBoolean(prop.getProperty("headless", "false"));
+    }
 }

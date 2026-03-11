@@ -5,6 +5,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
+import utils.configReader;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -12,23 +14,43 @@ import java.time.Duration;
 import java.util.Properties;
 
 public class DriverFactory{
-    static WebDriver driver;
+    private static ThreadLocal<WebDriver> driver= new ThreadLocal<>();
     public static WebDriver initializationDriver(String browser) throws IOException {
-        System.out.println("Browser value from properties: " + browser);
+       boolean headless= configReader.isHeadless();
 
 
         if(browser.equalsIgnoreCase("chrome")){
-            ChromeOptions options = new ChromeOptions();
             WebDriverManager.chromedriver().setup();
-            driver = new ChromeDriver();
-        } else if (browser.equalsIgnoreCase("edge")) {
+            ChromeOptions options = new ChromeOptions();
+            if (headless){
+                options.addArguments("--headless=new"); // "new" mode is stable in Chrome 112+
+                options.addArguments("--no-sandbox");
+                options.addArguments("--disable-dev-shm-usage");
+                options.addArguments("--window-size=1920,1080"); // needed since maximize() won't work headless
+            }
+            driver.set(new ChromeDriver(options));
+        }
+        else if (browser.equalsIgnoreCase("edge")) {
             WebDriverManager.edgedriver().setup();
-            driver= new EdgeDriver();
+            EdgeOptions options = new EdgeOptions();
+            if (headless) {
+                options.addArguments("--headless=new");
+                options.addArguments("--no-sandbox");
+                options.addArguments("--disable-dev-shm-usage");
+                options.addArguments("--window-size=1920,1080");
+            }
+            driver.set(new EdgeDriver(options));
 
         }
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        return driver;
+        if (!headless) {
+            driver.get().manage().window().maximize(); // only maximize in non-headless
+        }
+        driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        return driver.get();
 
     }
+    public static WebDriver getDriver(){
+        return driver.get();
+    }
+
 }

@@ -13,7 +13,7 @@ import java.util.List;
 
 public class TransferFundsTest extends BaseTest {
 
-    @Test
+    @Test(retryAnalyzer = base.Retry.class)
     public void  FundTransfer() throws IOException {
         ensureuserExist();
         DashBoardPage dashBoardPage= new DashBoardPage(driver);

@@ -5,6 +5,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class RegisterUserPage {
     WebDriver driver;
@@ -51,6 +54,13 @@ public class RegisterUserPage {
         confirmPwd.sendKeys(user.password);
 
         register.click();
+        new WebDriverWait(driver, Duration.ofSeconds(15))
+                .until(d -> d.getPageSource().contains("Accounts Overview")
+                        || d.getPageSource().contains("username already exists")
+                        || d.getPageSource().contains("error"));
+
+        System.out.println("Registration result: " +
+                (driver.getPageSource().contains("Accounts Overview") ? "SUCCESS" : "FAILED - " + driver.getCurrentUrl()));
         return new DashBoardPage(driver);
     }
 }

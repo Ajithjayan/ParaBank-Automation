@@ -11,7 +11,7 @@ import org.testng.ITestResult;
 
 import java.io.IOException;
 
-public class Listeners extends BaseTest implements ITestListener {
+public class Listeners  implements ITestListener {
     ExtentTest test;
     ExtentReports extent = ExtentReportedNG.getReportObject();
     ThreadLocal<ExtentTest> extentTest = new ThreadLocal<>();
@@ -26,7 +26,6 @@ public class Listeners extends BaseTest implements ITestListener {
     @Override
     public void onTestSuccess(ITestResult result) {
         ITestListener.super.onTestSuccess(result);
-        ITestListener.super.onTestSuccess(result);
         extentTest.get().log(Status.PASS, "Test Passed");
     }
 
@@ -37,48 +36,29 @@ public class Listeners extends BaseTest implements ITestListener {
         extentTest.get().fail(result.getThrowable());
 
         try {
-            driver = (WebDriver) result.getTestClass().getRealClass().getField("driver").get(result.getInstance());
+            WebDriver driver = DriverFactory.getDriver(); // ✅ get from ThreadLocal directly
+            if (driver != null) {
+                String filepath = new BaseTest().getScreenShot(
+                        result.getMethod().getMethodName(), driver
+                );
+                extentTest.get().addScreenCaptureFromPath(filepath,
+                        result.getMethod().getMethodName());
+            }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            extentTest.get().log(Status.WARNING, "Screenshot failed: " + e.getMessage());
         }
-        String filepath = null;
-        try {
-            filepath = getScreenShot(result.getMethod().getMethodName(), driver);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        extentTest.get().addScreenCaptureFromPath(filepath, result.getMethod().getMethodName());
-        //screenshot
     }
 
     @Override
     public void onTestSkipped(ITestResult result) {
         ITestListener.super.onTestSkipped(result);
+        extentTest.get().log(Status.SKIP, "Test Skipped");
     }
 
-    @Override
-    public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
-        ITestListener.super.onTestFailedButWithinSuccessPercentage(result);
-    }
-
-    @Override
-    public void onTestFailedWithTimeout(ITestResult result) {
-        ITestListener.super.onTestFailedWithTimeout(result);
-    }
-
-    @Override
-    public void onStart(ITestContext context) {
-        ITestListener.super.onStart(context);
-    }
 
     @Override
     public void onFinish(ITestContext context) {
         ITestListener.super.onFinish(context);
         extent.flush();
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return ITestListener.super.isEnabled();
     }
 }

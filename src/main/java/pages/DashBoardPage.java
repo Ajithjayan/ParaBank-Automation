@@ -4,7 +4,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.WaitUtils;
+
+import java.time.Duration;
 
 public class DashBoardPage extends WaitUtils {
     WebDriver driver;
@@ -26,6 +29,16 @@ public class DashBoardPage extends WaitUtils {
     //Transfer Funds
     @FindBy(css="a[href='transfer.htm']")
     WebElement transferFundsbtn;
+
+    @FindBy(linkText = "Log Out")
+    WebElement logOut;
+
+    public void logout() {
+        logOut.click();
+        // wait for login page to appear
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(d -> d.getPageSource().contains("Forgot login info"));
+    }
 
     public String getAccountDetailsText(){
         return accountDetails.getText();
