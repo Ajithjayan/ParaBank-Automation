@@ -13,7 +13,7 @@ import utils.TestDataFactory;
 
 public class ForgotLoginTest extends BaseTest {
 
-    @Test(retryAnalyzer = base.Retry.class, enabled = false)
+    @Test(retryAnalyzer = base.Retry.class)
     public void Lookupuser(){
         // Step 1: Register a new user first
         LoginPage loginPage = new LoginPage(driver);
